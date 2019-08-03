@@ -1,0 +1,15 @@
+# note that we crated a file called .travis.yml
+# first we are saying that we need sudo to be required
+# then we are saying our services are [ docker ]
+# then before installing we are sayinh build docker and tag the build with moe/docker-react and for the file take Dockerfile.dev
+# note there is a failing build of travis so to fix it
+#  - docker run -e CI=true USERNAME/docker-react npm run test
+# to get info about the test  npm start test -- --coverage
+# to let the test only run once we add CI=true =>  CI=true npm run  test -- --coverage
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t moe/docker-react -f Dockerfile.dev .
+script:
+  - docker run -e CI=true moe/docker-react npm run test
