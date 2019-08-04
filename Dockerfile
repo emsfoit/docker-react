@@ -17,5 +17,7 @@ RUN npm build
 # docker will know that now in the next step from the word FROM
 # we specify the container we want to use nginx and the copy from the last stage ( we called builder ) the folder
 # build and put it in the html according to the doc from nginx
+# elsasticbeanstalk will look the EXPOSE and map to port 80
 FROM nginx
+EXPOSE 80
 COPY --from=builder /app/build /user/share/nginx/html
