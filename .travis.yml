@@ -6,6 +6,17 @@
 #  - docker run -e CI=true USERNAME/docker-react npm run test
 # to get info about the test  npm start test -- --coverage
 # to let the test only run once we add CI=true =>  CI=true npm run  test -- --coverage
+# we added deploy config
+# first we said the provider is elasticbeanstalk
+# then we copied the region from the link we got from amazon
+# then added the app name
+# the env is written beside the app name in amazon
+# bucket_name we got wehn we searched for s3 and then searched for buckets then elastic
+# bucket_path is the same like app name
+# then I created a user by going to services then IAM then creating a user 
+# we give the user full elastic access then I copied the secretkey and the access id
+# in travis we added those secrets and we are using them here by adding $ to the varible name
+# on it means when updating the master deploy
 sudo: required
 services:
   - docker
@@ -13,3 +24,15 @@ before_install:
   - docker build -t moe/docker-react -f Dockerfile.dev .
 script:
   - docker run -e CI=true moe/docker-react npm run test
+deploy:
+  prvider: elasticbeanstalk
+  region: "eu-central-1"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-eu-central-1-698833103595"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+      secure: "$AWS_SECRET_KEY"
