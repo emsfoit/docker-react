@@ -12,7 +12,7 @@ WORKDIR '/app'
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm build
+RUN npm run build
  
 # docker will know that now in the next step from the word FROM
 # we specify the container we want to use nginx and the copy from the last stage ( we called builder ) the folder
