@@ -9,7 +9,7 @@
 # when npm build finished we get a folder /build which has the js required to run the website
 FROM node:alpine as builder
 WORKDIR '/app'
-COPY package.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm build
@@ -20,4 +20,4 @@ RUN npm build
 # elsasticbeanstalk will look the EXPOSE and map to port 80
 FROM nginx
 EXPOSE 80
-COPY --from=builder /app/build /user/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
